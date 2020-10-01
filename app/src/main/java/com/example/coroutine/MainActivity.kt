@@ -13,17 +13,16 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
 
     private val RESULT_1 = "RESULT #1"
+    private val RESULT_2 = "RESULT #2"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         button.setOnClickListener{
-
             CoroutineScope(IO).launch {
                 fakeApiRequest()
             }
-
         }
     }
 
@@ -31,6 +30,9 @@ class MainActivity : AppCompatActivity() {
         val result1 = getResult1FromApi()
         println("debug:  $result1")
         setTextOnMainThread(result1)
+
+        val result2 = getResult2FromApi()
+        setTextOnMainThread(result2)
     }
     private suspend fun setTextOnMainThread(input: String) {
         //main thread
@@ -49,6 +51,12 @@ class MainActivity : AppCompatActivity() {
 //        this only delays a single coroutine
         delay(1000)
         return RESULT_1
+    }
+    private suspend fun getResult2FromApi(): String {
+        logThread("getResult2FromApi")
+//        this only delays a single coroutine
+        delay(1000)
+        return RESULT_2
     }
 
     private fun logThread(methodName: String) {
